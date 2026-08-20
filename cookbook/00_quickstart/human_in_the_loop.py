@@ -22,12 +22,14 @@ Example prompts to try:
 
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
-from agno.models.google import Gemini
 from agno.tools import tool
 from agno.tools.yfinance import YFinanceTools
 from agno.utils import pprint
 from rich.console import Console
 from rich.prompt import Prompt
+
+# from agno.models.google import Gemini
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Storage Configuration
@@ -76,7 +78,7 @@ You are a market research partner.
 # ---------------------------------------------------------------------------
 human_in_the_loop_agent = Agent(
     name="Agent with Human in the Loop",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

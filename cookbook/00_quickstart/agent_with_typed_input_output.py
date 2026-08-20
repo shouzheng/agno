@@ -20,9 +20,12 @@ Example inputs to try:
 from typing import List, Literal, Optional
 
 from agno.agent import Agent
-from agno.models.google import Gemini
+
+# from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
 from pydantic import BaseModel, Field
+
+from cookbook.settings import openai_settings
 
 
 # ---------------------------------------------------------------------------
@@ -109,7 +112,7 @@ You receive structured requests with:
 # ---------------------------------------------------------------------------
 agent_with_typed_input_output = Agent(
     name="Agent with Typed Input Output",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

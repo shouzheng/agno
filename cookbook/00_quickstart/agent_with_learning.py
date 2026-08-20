@@ -21,12 +21,15 @@ Example prompts to try:
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
 from agno.knowledge import Knowledge
-from agno.knowledge.embedder.google import GeminiEmbedder
+
+# from agno.knowledge.embedder.google import GeminiEmbedder
 from agno.learn import LearnedKnowledgeConfig, LearningMachine, LearningMode
-from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
 from agno.vectordb.chroma import ChromaDb
 from agno.vectordb.search import SearchType
+
+# from agno.models.google import Geminiz
+from cookbook.settings import embedder_settings, openai_settings
 
 # ---------------------------------------------------------------------------
 # Learning Storage
@@ -44,7 +47,7 @@ learned_knowledge = Knowledge(
         path="tmp/quickstart/learning",
         persistent_client=True,
         search_type=SearchType.hybrid,
-        embedder=GeminiEmbedder(id="gemini-embedding-001"),
+        embedder=embedder_settings.create_embedder(),
     ),
 )
 
@@ -66,7 +69,7 @@ You are a market research partner that improves as people use you.
 # ---------------------------------------------------------------------------
 agent_with_learning = Agent(
     name="Agent with Learning",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

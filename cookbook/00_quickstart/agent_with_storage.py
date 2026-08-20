@@ -21,8 +21,11 @@ Example prompts to try:
 
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
-from agno.models.google import Gemini
+
+# from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
+
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Storage Configuration
@@ -73,7 +76,7 @@ computes key ratios, and produces concise, decision-ready insights.
 # ---------------------------------------------------------------------------
 agent_with_storage = Agent(
     name="Agent with Storage",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

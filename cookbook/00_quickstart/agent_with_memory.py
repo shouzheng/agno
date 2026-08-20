@@ -22,9 +22,12 @@ Example prompts to try:
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
 from agno.memory import MemoryManager
-from agno.models.google import Gemini
+
+# from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
 from rich.pretty import pprint
+
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Storage Configuration
@@ -38,7 +41,7 @@ agent_db = SqliteDb(
 # Memory Manager Configuration
 # ---------------------------------------------------------------------------
 memory_manager = MemoryManager(
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     db=agent_db,
     additional_instructions="""
     Capture the user's favorite stocks, their risk tolerance, and their investment goals.
@@ -90,7 +93,7 @@ user_id = "investor@example.com"
 
 agent_with_memory = Agent(
     name="Agent with Memory",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

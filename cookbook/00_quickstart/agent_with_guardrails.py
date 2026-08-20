@@ -27,10 +27,12 @@ from agno.agent import Agent
 from agno.exceptions import InputCheckError
 from agno.guardrails import PIIDetectionGuardrail, PromptInjectionGuardrail
 from agno.guardrails.base import BaseGuardrail
-from agno.models.google import Gemini
 from agno.run import RunStatus
 from agno.run.agent import RunInput
 from agno.run.team import TeamRunInput
+
+# from agno.models.google import Gemini
+from cookbook.settings import openai_settings
 
 
 # ---------------------------------------------------------------------------
@@ -89,7 +91,7 @@ Never share sensitive personal information in responses.\
 # ---------------------------------------------------------------------------
 agent_with_guardrails = Agent(
     name="Agent with Guardrails",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     pre_hooks=[
         PIIDetectionGuardrail(),  # Block PII (SSN, credit cards, emails, phones)

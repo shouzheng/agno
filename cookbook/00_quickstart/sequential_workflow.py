@@ -19,16 +19,18 @@ Example prompts to try:
 """
 
 from agno.agent import Agent
-from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
 from agno.workflow import Step, Workflow
+
+# from agno.models.google import Gemini
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Step 1: Data Gatherer — Fetches raw market data
 # ---------------------------------------------------------------------------
 data_agent = Agent(
     name="Data Gatherer",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     tools=[
         YFinanceTools(
             enable_stock_fundamentals=True,
@@ -62,7 +64,7 @@ data_step = Step(
 # ---------------------------------------------------------------------------
 analyst_agent = Agent(
     name="Analyst",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions="""\
 You are a financial analyst. You receive raw market data from the data team.
 
@@ -88,7 +90,7 @@ analysis_step = Step(
 # ---------------------------------------------------------------------------
 report_agent = Agent(
     name="Report Writer",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions="""\
 You are a report writer. You receive analysis from the research team.
 

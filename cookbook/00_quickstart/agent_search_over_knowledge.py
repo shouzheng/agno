@@ -18,11 +18,14 @@ from pathlib import Path
 
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
-from agno.knowledge.embedder.google import GeminiEmbedder
 from agno.knowledge.knowledge import Knowledge
-from agno.models.google import Gemini
+
+# from agno.models.google import Gemini
 from agno.vectordb.chroma import ChromaDb
 from agno.vectordb.search import SearchType
+
+# from agno.knowledge.embedder.google import GeminiEmbedder
+from cookbook.settings import embedder_settings, openai_settings
 
 # ---------------------------------------------------------------------------
 # Setup
@@ -45,7 +48,7 @@ knowledge = Knowledge(
         # Higher values (e.g., 60) give more weight to lower-ranked results,
         # Lower values make top results more dominant. Default is 60 (per original RRF paper).
         hybrid_rrf_k=60,
-        embedder=GeminiEmbedder(id="gemini-embedding-001"),
+        embedder=embedder_settings.create_embedder(),
     ),
     # Return 5 results on query
     max_results=5,
@@ -86,7 +89,7 @@ You are an expert on the Agno framework and building AI agents.
 # ---------------------------------------------------------------------------
 agent_with_knowledge = Agent(
     name="Agent with Knowledge",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     knowledge=knowledge,
     search_knowledge=True,

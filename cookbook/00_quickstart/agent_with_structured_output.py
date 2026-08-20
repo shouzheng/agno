@@ -22,9 +22,12 @@ Example prompts to try:
 from typing import List, Literal, Optional
 
 from agno.agent import Agent
-from agno.models.google import Gemini
+
+# from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
 from pydantic import BaseModel, Field
+
+from cookbook.settings import openai_settings
 
 
 # ---------------------------------------------------------------------------
@@ -96,7 +99,7 @@ computes key ratios, and produces concise, decision-ready insights.
 # ---------------------------------------------------------------------------
 agent_with_structured_output = Agent(
     name="Agent with Structured Output",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=instructions,
     tools=[
         YFinanceTools(

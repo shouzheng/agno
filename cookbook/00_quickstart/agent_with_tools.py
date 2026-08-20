@@ -17,15 +17,16 @@ Example prompts to try:
 """
 
 from agno.agent import Agent
-from agno.models.google import Gemini
 from agno.tools.yfinance import YFinanceTools
+
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Create the Agent
 # ---------------------------------------------------------------------------
 agent_with_tools = Agent(
     name="Agent with Tools",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     instructions=[
         "Use Yahoo Finance for facts that can change.",
         "Lead with the answer, then show the evidence.",

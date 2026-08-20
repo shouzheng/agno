@@ -25,9 +25,11 @@ Example prompts to try:
 
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
-from agno.models.google import Gemini
 from agno.team import Team
 from agno.tools.yfinance import YFinanceTools
+
+# from agno.models.google import Gemini
+from cookbook.settings import openai_settings
 
 # ---------------------------------------------------------------------------
 # Storage Configuration
@@ -43,7 +45,7 @@ team_db = SqliteDb(
 bull_agent = Agent(
     name="Bull Analyst",
     role="Make the investment case FOR a stock",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     tools=[
         YFinanceTools(
             enable_company_info=True,
@@ -73,7 +75,7 @@ Be persuasive but grounded in data. Use the tools to get real numbers.\
 bear_agent = Agent(
     name="Bear Analyst",
     role="Make the investment case AGAINST a stock",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     tools=[
         YFinanceTools(
             enable_company_info=True,
@@ -102,7 +104,7 @@ Be critical but fair. Use the tools to get real numbers to support your concerns
 # ---------------------------------------------------------------------------
 multi_agent_team = Team(
     name="Multi-Agent Team",
-    model=Gemini(id="gemini-3.6-flash"),
+    model=openai_settings.create_model(),
     members=[bull_agent, bear_agent],
     instructions="""\
 You lead an investment research team with a Bull Analyst and Bear Analyst.
